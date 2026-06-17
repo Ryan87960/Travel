@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宜蘭三天兩夜旅行提案</title>
+  <style>
+    :root {
+      --bg: #eff8ff;
+      --surface: #ffffff;
+      --surface-soft: #f7fbfe;
+      --primary: #0f766e;
+      --primary-deep: #134e4a;
+      --secondary: #38bdf8;
+      --accent: #fef3c7;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #d9e7ef;
+      --shadow: 0 14px 34px rgba(15, 118, 110, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), transparent 22%),
+        linear-gradient(180deg, #dff4ff 0%, var(--bg) 35%, #ffffff 100%);
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 52px 0 24px;
+    }
+
+    .hero-card,
+    .selector,
+    .plan-card,
+    .tips-card,
+    .summary-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card {
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: #d8f3f0;
+      color: var(--primary-deep);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 16px 0 12px;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.15;
+    }
+
+    .hero-copy {
+      margin: 0;
+      max-width: 780px;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .hero-grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .summary-card,
+    .tips-card {
+      padding: 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .summary-card h2,
+    .tips-card h2,
+    .selector h2,
+    .plan-head h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+    }
+
+    .summary-card p,
+    .tips-card p,
+    .selector p,
+    .plan-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .summary-points {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .point {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+    }
+
+    .point strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--primary);
+      font-size: 15px;
+    }
+
+    .tips-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    main {
+      padding: 4px 0 40px;
+    }
+
+    .selector {
+      padding: 26px;
+      margin-bottom: 24px;
+    }
+
+    .option-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .option-btn {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      background: var(--surface-soft);
+      text-align: left;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .option-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--secondary);
+    }
+
+    .option-btn.active {
+      background: linear-gradient(135deg, #d8f3f0 0%, #eefcff 100%);
+      border-color: var(--primary);
+    }
+
+    .option-btn .title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .option-btn .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .option-btn .summary {
+      font-size: 15px;
+    }
+
+    .plan-card {
+      padding: 28px;
+    }
+
+    .plan-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .badge-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      font-size: 14px;
+      font-weight: 800;
+      color: #7c5a00;
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .day-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+    }
+
+    .day-card h3 {
+      margin: 0 0 12px;
+      color: var(--primary);
+      font-size: 22px;
+    }
+
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline li {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--secondary);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .timeline strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .extra-tips {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .tip-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .tip-item h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .tip-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    footer {
+      padding: 8px 0 36px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 20px, 1160px);
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .hero-card,
+      .selector,
+      .plan-card,
+      .summary-card,
+      .tips-card {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .summary-points {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <section class="hero-card">
+        <span class="eyebrow">Yilan Travel Plan ・ 三天兩夜提案</span>
+        <h1>宜蘭三天兩夜，<br />一次看懂不同玩法</h1>
+        <p class="hero-copy">
+          如果你想安排一趟宜蘭小旅行，但還不確定要走親子、放鬆、吃美食，還是文青慢旅路線，這份頁面已經幫你整理好。你可以直接在下方切換不同旅遊風格，查看對應的三天兩夜行程安排。
+        </p>
+
+        <div class="hero-grid">
+          <article class="summary-card">
+            <h2>這份行程怎麼看？</h2>
+            <p>每一種方案都包含適合族群、旅行節奏與每天的建議安排，方便你快速挑出最符合需求的版本。</p>
+            <div class="summary-points">
+              <div class="point">
+                <strong>旅遊範圍</strong>
+                宜蘭市、礁溪、羅東、冬山、頭城、蘇澳一帶
+              </div>
+              <div class="point">
+                <strong>建議交通</strong>
+                自駕最方便；也可搭火車配合計程車、租機車移動
+              </div>
+              <div class="point">
+                <strong>住宿安排</strong>
+                可住礁溪泡湯，也可住羅東方便夜市與市區移動
+              </div>
+              <div class="point">
+                <strong>使用方式</strong>
+                先選旅遊風格，再依住宿地點與旅伴狀況微調景點順序
+              </div>
+            </div>
+          </article>
+
+          <article class="tips-card">
+            <h2>旅行前小提醒</h2>
+            <p>宜蘭行程的重點不是塞滿景點，而是依照你喜歡的節奏，把山、海、溫泉與美食安排得剛剛好。</p>
+            <ul class="tips-list">
+              <li>秋冬很適合礁溪泡湯，春夏則適合海景與冷泉行程。</li>
+              <li>若碰到下雨，可把戶外景點替換成觀光工廠、咖啡館或溫泉館。</li>
+              <li>羅東夜市、礁溪熱門餐廳與海鮮店，假日建議提早安排。</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="selector">
+        <h2>請先選擇你想要的旅遊風格</h2>
+        <p>這裡提供 4 種不同版本：適合親子同行、喜歡自然景觀、以美食為主，或偏好慢節奏文青旅行的人。</p>
+        <div class="option-grid" id="optionGrid"></div>
+      </section>
+
+      <section class="plan-card">
+        <div class="plan-head">
+          <div>
+            <h2 id="planTitle"></h2>
+            <p id="planDescription"></p>
+          </div>
+          <div class="badge-wrap" id="planBadges"></div>
+        </div>
+
+        <div class="days" id="daysContainer"></div>
+        <div class="extra-tips" id="tipsContainer"></div>
+      </section>
+    </main>
+
+    <footer>
+      本頁為宜蘭三天兩夜旅遊提案示範版；若你要，我也可以下一步再幫你改成「情侶版」、「開車版」、「搭火車版」或「預算版」更細的規劃。
+    </footer>
+  </div>
+
+  <script>
+    const plans = [
+      {
+        id: 'relax',
+        name: '溫泉放鬆版',
+        meta: '適合：情侶、夫妻、想慢慢玩的旅人',
+        summary: '以礁溪溫泉、海景咖啡與舒適節奏為主，適合放空充電。',
+        description: '這個版本把「不要太趕」放在第一位，用最輕鬆的方式玩宜蘭，行程集中在礁溪、頭城與附近順遊路線。',
+        badges: ['慢步調', '泡湯療癒', '適合兩人旅行'],
+        days: [
+          {
+            title: 'Day 1｜頭城看海，晚上入住礁溪',
+            items: [
+              ['上午', '從台北出發後先到頭城或外澳，安排海景咖啡館，讓旅行從看海慢慢開始。'],
+              ['中午', '在頭城吃海鮮或簡單早午餐，推薦以不趕路線為主。'],
+              ['下午', '前往烏石港周邊、伯朗咖啡城堡或滿山望海，安排拍照與放空時間。'],
+              ['晚上', '入住礁溪溫泉旅館，晚餐後泡湯休息，享受第一晚的放鬆節奏。']
+            ]
+          },
+          {
+            title: 'Day 2｜礁溪輕旅行＋羅東夜市',
+            items: [
+              ['上午', '睡到自然醒後，在礁溪吃早午餐，再到湯圍溝溫泉公園或礁溪街區散步。'],
+              ['中午', '安排礁溪人氣餐廳，像甕窯雞、櫻桃鴨或在地小館。'],
+              ['下午', '沿途前往冬山或羅東，可選梅花湖散步、景觀咖啡館坐坐。'],
+              ['晚上', '逛羅東夜市，吃幾樣經典小吃後回住宿休息。']
+            ]
+          },
+          {
+            title: 'Day 3｜宜蘭市小吃收尾',
+            items: [
+              ['上午', '回到宜蘭市區走走，安排文創空間、咖啡館或老街感散步路線。'],
+              ['中午', '吃蒜味肉羹、卜肉、糕渣等在地小吃，作為最後一餐。'],
+              ['下午', '買牛舌餅、奶凍捲或三星蔥伴手禮後返程。']
+            ]
+          }
+        ],
+        tips: [
+          ['住宿建議', '兩晚都住礁溪最輕鬆；若想順便逛夜市，第二晚可改住羅東。'],
+          ['預算感受', '若選溫泉飯店，住宿預算會是主要支出。'],
+          ['下雨備案', '海景行程可改成礁溪溫泉、咖啡館或觀光工廠。']
+        ]
+      },
+      {
+        id: 'family',
+        name: '親子同遊版',
+        meta: '適合：親子家庭、長輩同行、小朋友出遊',
+        summary: '安排互動農場、溫和步道、觀光工廠與夜市，不會太操。',
+        description: '這份行程以親子友善為核心，減少長時間拉車，讓大人小孩都能玩得輕鬆。',
+        badges: ['親子友善', '互動體驗', '雨天可調整'],
+        days: [
+          {
+            title: 'Day 1｜礁溪暖身＋動物互動',
+            items: [
+              ['上午', '抵達宜蘭後先到礁溪，吃完早餐後在湯圍溝溫泉公園泡足湯、散步。'],
+              ['中午', '礁溪市區用餐，選擇停車方便、適合多人共食的餐廳。'],
+              ['下午', '前往甲鳥園或金車生技水產養殖中心，安排看動物與互動體驗。'],
+              ['晚上', '入住礁溪或宜蘭市區，晚餐後早點休息，讓小朋友保留體力。']
+            ]
+          },
+          {
+            title: 'Day 2｜農場體驗＋公園散步',
+            items: [
+              ['上午', '安排張美阿嬤農場、斑比山丘或其他可近距離接觸動物的農場。'],
+              ['中午', '在冬山或羅東吃合菜、鴨賞料理或簡單家庭餐。'],
+              ['下午', '前往冬山河親水公園或羅東運動公園，讓孩子活動、騎車或放風。'],
+              ['晚上', '逛羅東夜市，挑幾樣小吃共享，不必安排太滿。']
+            ]
+          },
+          {
+            title: 'Day 3｜室內景點＋伴手禮',
+            items: [
+              ['上午', '安排宜蘭餅發明館、蜡藝蜡筆城堡或珍奶文化館等室內行程。'],
+              ['中午', '在宜蘭市區用餐，可選擇簡單麵食或親子友善餐廳。'],
+              ['下午', '採買伴手禮後返程，避免最後一天還拉太遠。']
+            ]
+          }
+        ],
+        tips: [
+          ['住宿建議', '建議住礁溪一晚、羅東或冬山一晚，景點分布較順。'],
+          ['行程重點', '每天抓 2～3 個主要點就好，避免小朋友太累。'],
+          ['替代方案', '若下雨，公園與農場可改成觀光工廠或室內館。']
+        ]
+      },
+      {
+        id: 'food',
+        name: '美食大滿足版',
+        meta: '適合：吃貨、好友出遊、第一次玩宜蘭',
+        summary: '用小吃、夜市、礁溪人氣店與南方澳海鮮串成一趟吃不停的旅行。',
+        description: '如果你去宜蘭最在意的是「這餐要吃什麼」，那這個版本最適合你，重點是一路把代表性味道吃過一輪。',
+        badges: ['夜市必吃', '海鮮路線', '在地小吃'],
+        days: [
+          {
+            title: 'Day 1｜宜蘭市經典小吃巡禮',
+            items: [
+              ['上午', '先進宜蘭市區，從在地早餐、鮮肉小籠包或蒜味肉羹開場。'],
+              ['中午', '接著吃卜肉、糕渣、北門綠豆沙等經典小吃，走一條邊吃邊逛的路線。'],
+              ['下午', '找一間咖啡館休息，也可以順手買牛舌餅、奶凍捲等伴手禮。'],
+              ['晚上', '入住羅東，晚上主攻羅東夜市，把人氣攤位一次吃起來。']
+            ]
+          },
+          {
+            title: 'Day 2｜礁溪美食＋溫泉日',
+            items: [
+              ['上午', '前往礁溪，先安排早午餐與礁溪街區散步。'],
+              ['中午', '吃甕窯雞、蔥油餅、櫻桃鴨或其他礁溪熱門美食。'],
+              ['下午', '安排甜點、咖啡或泡湯行程，讓味蕾與身體一起放鬆。'],
+              ['晚上', '晚餐可再吃一輪熱炒、宵夜或回飯店享受溫泉時光。']
+            ]
+          },
+          {
+            title: 'Day 3｜南方澳海鮮收尾',
+            items: [
+              ['上午', '前往南方澳，先感受漁港氛圍與海港風景。'],
+              ['中午', '用海鮮作為壓軸，推薦時令魚、蝦、透抽與魚丸米粉。'],
+              ['下午', '最後再補買鴨賞、蜜餞與三星蔥相關商品，結束這趟美食旅行。']
+            ]
+          }
+        ],
+        tips: [
+          ['住宿建議', '羅東方便夜市，礁溪方便餐廳密集與泡湯。'],
+          ['點餐建議', '多人同行最適合共食，能吃到更多品項。'],
+          ['預算提醒', '海鮮與人氣餐廳可能提高整體餐費，建議預留彈性。']
+        ]
+      },
+      {
+        id: 'culture',
+        name: '文青慢旅版',
+        meta: '適合：情侶、文青旅人、喜歡咖啡館與小店的人',
+        summary: '把老街、海景咖啡、田野散步與生活感小店串成一趟慢節奏旅行。',
+        description: '這個版本不追求景點數量，而是用剛剛好的停留時間，把宜蘭過成一種舒服的生活感。',
+        badges: ['生活感', '咖啡館路線', '慢旅行'],
+        days: [
+          {
+            title: 'Day 1｜頭城老街＋海邊咖啡館',
+            items: [
+              ['上午', '先走頭城老街與周邊街區，看看老屋、在地店家與歷史感街景。'],
+              ['中午', '找一間老宅餐廳或特色小店慢慢吃午餐。'],
+              ['下午', '移動到海景咖啡館，留一段完整的放空與看海時間。'],
+              ['晚上', '入住礁溪，晚餐簡單吃，保留夜晚給泡湯與休息。']
+            ]
+          },
+          {
+            title: 'Day 2｜羅東選物店＋冬山田野',
+            items: [
+              ['上午', '到羅東文化工場、書店、選物店或特色咖啡館慢慢逛。'],
+              ['中午', '選一間氣氛好的早午餐店或義式小館用餐。'],
+              ['下午', '前往冬山或梅花湖周邊，安排湖畔散步與田野景色。'],
+              ['晚上', '回民宿休息；若想熱鬧一點，再去羅東夜市簡單吃幾樣。']
+            ]
+          },
+          {
+            title: 'Day 3｜宜蘭市文創收尾',
+            items: [
+              ['上午', '回到宜蘭市區逛文創空間、市場周邊與特色甜點店。'],
+              ['中午', '吃一餐節奏舒服、環境不吵的在地料理。'],
+              ['下午', '買些有設計感的伴手禮、咖啡豆或甜點後返程。']
+            ]
+          }
+        ],
+        tips: [
+          ['住宿建議', '可優先選設計旅店、溫泉旅宿或田野民宿。'],
+          ['安排建議', '每天 2～3 個點最剛好，保留臨時停留的彈性。'],
+          ['適合族群', '喜歡拍照、喝咖啡、逛小店的人會特別喜歡。']
+        ]
+      }
+    ];
+
+    const optionGrid = document.getElementById('optionGrid');
+    const planTitle = document.getElementById('planTitle');
+    const planDescription = document.getElementById('planDescription');
+    const planBadges = document.getElementById('planBadges');
+    const daysContainer = document.getElementById('daysContainer');
+    const tipsContainer = document.getElementById('tipsContainer');
+
+    function renderOptions(activeId) {
+      optionGrid.innerHTML = '';
+
+      plans.forEach((plan) => {
+        const button = document.createElement('button');
+        button.className = `option-btn${plan.id === activeId ? ' active' : ''}`;
+        button.innerHTML = `
+          <div class="title">${plan.name}</div>
+          <div class="meta">${plan.meta}</div>
+          <div class="summary">${plan.summary}</div>
+        `;
+        button.addEventListener('click', () => renderPlan(plan.id));
+        optionGrid.appendChild(button);
+      });
+    }
+
+    function renderPlan(planId) {
+      const plan = plans.find((item) => item.id === planId) || plans[0];
+      renderOptions(plan.id);
+
+      planTitle.textContent = plan.name;
+      planDescription.textContent = plan.description;
+
+      planBadges.innerHTML = plan.badges
+        .map((badge) => `<span class="badge">${badge}</span>`)
+        .join('');
+
+      daysContainer.innerHTML = plan.days.map((day) => `
+        <article class="day-card">
+          <h3>${day.title}</h3>
+          <ul class="timeline">
+            ${day.items.map((item) => `
+              <li>
+                <strong>${item[0]}</strong>
+                <span>${item[1]}</span>
+              </li>
+            `).join('')}
+          </ul>
+        </article>
+      `).join('');
+
+      tipsContainer.innerHTML = plan.tips.map((tip) => `
+        <article class="tip-item">
+          <h4>${tip[0]}</h4>
+          <p>${tip[1]}</p>
+        </article>
+      `).join('');
+    }
+
+    renderPlan('relax');
+  </script>
+</body>
+</html>
